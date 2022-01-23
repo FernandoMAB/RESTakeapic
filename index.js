@@ -87,6 +87,50 @@ app.get("/", async (req, res) => {
     }
   });
 
+  app.get("/comments", async (req, res) => {
+    try {
+  
+      const sql = 'SELECT * FROM comments';
+
+        pool.query(sql)
+        res.json(results);
+
+    } catch (err) {
+      console.error(err.message);
+    }
+  });
+
+  app.post("/comments", async (req, res) => {
+    try {
+        const sql = `INSERT INTO comments SET ?`;
+
+        const customerObj = {
+            user_id: req.body.user_id,
+            image_id: req.body.image_id,
+            content: req.body.content
+        }
+
+        pool.query(sql, customerObj)
+        res.send('comment created!')
+      
+    } catch (err) {
+      console.error(err.message);
+    }
+  });
+
+  app.delete("/comments/:id", async (req, res) => {
+    try {
+
+        const {id} = req.params;
+
+        const sql = `DELETE FROM comments WHERE id = ${id}`;
+
+        pool.query(sql);
+        res.send('Delete comments');
+    } catch (err) {
+      console.error(err.message);
+    }
+  });
 
 app.listen(PORT, () => {
     console.log("Server is running on port 3350");
