@@ -80,7 +80,7 @@ app.get("/", async (req, res) => {
 
         const sql = `DELETE FROM images WHERE id = ${id}`;
 
-        connection.query(sql)
+        pool.query(sql)
         res.send('Delete images')
     } catch (err) {
       console.error(err.message);
